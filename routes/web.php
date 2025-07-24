@@ -1,28 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ProdukController;
-use App\Http\Controllers\AdminController; // Tambahkan controller ini
-use App\Http\Controllers\ProductController; // Jika masih digunakan
 
-// Group route admin
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Dashboard admin
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard'); // ← FIXED here
-
-    // Resource CRUD produk
-    Route::resource('/produk', ProdukController::class, [
-        'names' => [
-            'index' => 'produk.index',
-            'create' => 'produk.create',
-            'store' => 'produk.store',
-            'show' => 'produk.show',
-            'edit' => 'produk.edit',
-            'update' => 'produk.update',
-            'destroy' => 'produk.destroy',
-        ]
-    ]);
+Route::get('/', function () {
+    return view('welcome');
 });
 
-// Optional: Jika kamu masih butuh ini untuk produk publik
-Route::resource('products', ProductController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
