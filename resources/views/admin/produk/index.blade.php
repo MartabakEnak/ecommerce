@@ -3,105 +3,84 @@
 @section('title', 'Daftar Produk')
 
 @section('content')
-<div class="d-flex min-vh-100">
-    {{-- Sidebar --}}
-    <div class="bg-dark text-white p-4" style="width: 250px;">
-        <h4 class="mb-4">Admin Panel</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-            </li>
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="{{ route('admin.produk.index') }}"><i class="bi bi-box-seam me-2"></i> Daftar Produk</a>
-            </li>
-        </ul>
-    </div>
+<div class="container mt-5">
+    <h2>{{ isset($editProduct) ? 'Edit Produk' : 'Tambah Produk' }}</h2>
 
-    {{-- Main Content --}}
-    <div class="flex-fill p-5">
-        <h1 class="mb-4">Daftar Produk</h1>
+    @if (session('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+    @endif
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+    <form action="{{ isset($editProduct) ? route('admin.produk.update', $editProduct->id) : route('admin.produk.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+        @csrf
+        @if (isset($editProduct))
+            @method('PUT')
         @endif
 
-        {{-- Form Tambah Produk --}}
-        <div class="card mb-4">
-            <div class="card-header">Tambah Produk</div>
-            <div class="card-body">
-                <form method="POST" action="{{ route('admin.produk.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="nama_produk" class="form-label">Nama Produk</label>
-                        <input type="text" class="form-control" name="nama_produk" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="harga" class="form-label">Harga</label>
-                        <input type="number" class="form-control" name="harga" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="stok" class="form-label">Stok</label>
-                        <input type="number" class="form-control" name="stok" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="gambar" class="form-label">Gambar</label>
-                        <input type="file" class="form-control" name="gambar">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
-            </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nama Produk</label>
+            <input type="text" name="name" class="form-control" placeholder="Masukkan nama produk" value="{{ isset($editProduct) ? $editProduct->name : old('name') }}" required>
         </div>
-
-        {{-- Tabel Produk --}}
-        <div class="card">
-            <div class="card-header">List Produk</div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered m-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama</th>
-                                <th>Harga</th>
-                                <th>Stok</th>
-                                <th>Gambar</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($produks as $index => $produk)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $produk->nama_produk }}</td>
-                                <td>Rp{{ number_format($produk->harga, 0, ',', '.') }}</td>
-                                <td>{{ $produk->stok }}</td>
-                                <td>
-                                    @if($produk->gambar)
-                                        <img src="{{ asset('storage/' . $produk->gambar) }}" width="60" class="rounded">
-                                    @else
-                                        <small class="text-muted">Tidak ada</small>
-                                    @endif
-                                </td>
-                                <td>
-                                    <form action="{{ route('admin.produk.destroy', $produk->id) }}" method="POST" onsubmit="return confirm('Yakin hapus produk ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @if($produks->isEmpty())
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">Belum ada produk</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Harga</label>
+            <input type="number" name="price" class="form-control" placeholder="Masukkan harga produk" value="{{ isset($editProduct) ? $editProduct->price : old('price') }}" required>
         </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Deskripsi</label>
+            <textarea name="description" class="form-control" placeholder="Deskripsi produk" required>{{ isset($editProduct) ? $editProduct->description : old('description') }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Gambar (opsional)</label>
+            <input type="file" name="image" class="form-control">
+            @if (isset($editProduct) && $editProduct->image)
+                <img src="{{ asset('storage/' . $editProduct->image) }}" width="100" class="mt-2">
+            @endif
+        </div>
+        <button type="submit" class="btn {{ isset($editProduct) ? 'btn-warning' : 'btn-success' }}">
+            {{ isset($editProduct) ? 'Update Produk' : 'Tambah Produk' }}
+        </button>
+        @if (isset($editProduct))
+            <a href="{{ route('admin.produk.index') }}" class="btn btn-secondary ms-2">Batal Edit</a>
+        @endif
+    </form>
 
-    </div>
+    <table class="table table-bordered mt-5">
+        <thead>
+            <tr>
+                <th>Gambar</th>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Deskripsi</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $p)
+            <tr>
+                <td>
+                    @if ($p->image)
+                        <img src="{{ asset('storage/' . $p->image) }}" alt="Gambar" width="80">
+                    @else
+                        Tidak ada gambar
+                    @endif
+                </td>
+                <td>{{ $p->name }}</td>
+                <td>Rp{{ number_format($p->price, 0, ',', '.') }}</td>
+                <td>{{ $p->description }}</td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.produk.edit', $p->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('admin.produk.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus produk ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection
