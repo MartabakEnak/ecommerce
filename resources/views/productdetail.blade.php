@@ -5,7 +5,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-2xl rounded-3xl p-12">
                 <div class="flex flex-col items-center">
                     <div class="relative w-full mb-8">
-                        <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
+                         <img src="{{ asset('storage/' . $product->image) }}"
                              class="h-96 w-full object-cover rounded-3xl border shadow-xl">
                         <span class="absolute top-6 left-6 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow">
                             Featured
