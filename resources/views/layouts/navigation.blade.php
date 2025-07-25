@@ -21,7 +21,7 @@
             <!-- Settings + Logout -->
             <div class="hidden sm:flex sm:items-center sm:space-x-4 sm:ms-6">
                 <!-- Settings Dropdown -->
-                <x-dropdown align="right" width="48">
+                {{-- <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
@@ -38,7 +38,15 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
                     </x-slot>
-                </x-dropdown>
+                </x-dropdown> --}}
+                <!-- Profile Button -->
+                <a href="{{ route('profile.edit') }}"
+                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 focus:outline-none transition ease-in-out duration-150">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.657 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Profile
+                </a>
 
                 <!-- Logout Button (Outside Dropdown) -->
                 <form method="POST" action="{{ route('logout') }}">
