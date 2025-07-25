@@ -27,7 +27,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     @forelse($products as $product)
                         <div class="border rounded-2xl shadow-lg hover:shadow-2xl transition flex flex-col bg-gradient-to-br from-blue-50 to-white">
-                            <img src="/images/{{ $product->image }}" alt="{{ $product->name }}"
+                            <img src="{{ asset('storage/' . $product->image) }}"
                                  class="h-56 w-full object-cover rounded-t-2xl border-b">
                             <div class="p-6 flex-1 flex flex-col">
                                 <h4 class="font-bold text-xl mb-2 text-blue-700">{{ $product->name }}</h4>
