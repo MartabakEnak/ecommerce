@@ -60,7 +60,7 @@
             <tr>
                 <td>
                     @if ($p->image)
-                        <img src="{{ asset('storage/' . $p->image) }}" alt="Gambar" width="80">
+                        <img src="/images/{{ $p->image }}" alt="{{ $p->name }}" width="80">
                     @else
                         Tidak ada gambar
                     @endif
