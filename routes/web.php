@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductViewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,7 +27,7 @@ require __DIR__.'/auth.php';
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-   
+
     Route::get('/produk', [ProductController::class, 'index'])->name('produk.index'); // Halaman daftar + form
     Route::post('/produk/store', [ProductController::class, 'store'])->name('produk.store'); // Tambah
     Route::get('/produk/edit/{id}', [ProductController::class, 'edit'])->name('produk.edit'); // Ambil data untuk form edit
@@ -34,6 +35,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy'); // Hapus
 });
 
+Route::get('/products', [ProductViewController::class, 'index'])->name('dashboard');
+Route::get('/products/{id}', [ProductViewController::class, 'show'])->name('productsdetail');
 
 Route::get('/logout', function () {
     Auth::logout();
