@@ -3,17 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
-            return $next($request);
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            return redirect('/products')->with('error', 'Akses hanya untuk admin.');
         }
 
-        abort(403, 'Unauthorized');
+        return $next($request);
     }
 }

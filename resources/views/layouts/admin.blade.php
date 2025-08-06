@@ -23,9 +23,7 @@
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1">Admin</span>
             <div class="d-flex ms-auto">
-                <a href="#" class="btn btn-outline-light me-2">
-                    <i class="bi bi-person-circle"></i> Profil
-                </a>
+                
                 <a href="{{ route('logout') }}" class="btn btn-outline-light">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </a>

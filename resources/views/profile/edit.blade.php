@@ -17,12 +17,7 @@
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-10 flex flex-col items-center">
-                <h3 class="text-2xl font-bold text-blue-700 mb-6 text-center">Change Password</h3>
-                <div class="w-full">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
+            
 
             <div class="bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-10 flex flex-col items-center">
                 <h3 class="text-2xl font-bold text-red-600 mb-6 text-center">Delete Account</h3>

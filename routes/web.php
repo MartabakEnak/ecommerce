@@ -29,11 +29,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
 
-    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index'); // Halaman daftar + form
-    Route::post('/produk/store', [ProductController::class, 'store'])->name('produk.store'); // Tambah
-    Route::get('/produk/edit/{id}', [ProductController::class, 'edit'])->name('produk.edit'); // Ambil data untuk form edit
+    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index'); 
+    Route::post('/produk/store', [ProductController::class, 'store'])->name('produk.store'); 
+    Route::get('/produk/edit/{id}', [ProductController::class, 'edit'])->name('produk.edit'); 
     Route::put('/produk/update/{id}', [ProductController::class, 'update'])->name('produk.update');
-    Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy'); // Hapus
+    Route::delete('/produk/{id}', [ProductController::class, 'destroy'])->name('produk.destroy'); 
 });
 
 Route::get('/products', [ProductViewController::class, 'index'])->name('dashboard');
